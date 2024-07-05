@@ -24,6 +24,6 @@ jobs:
     - name: docker steps
       run: |            
         docker login -u="${{ secrets.DOCKER_USER }}" -p="${{ secrets.DOCKER_PASS }}"
-        docker build -t node-hello ./
+        docker build -t node-hello ./ 
         docker tag ${GITHUB_REPO}:${SHORT_SHA} devopzvi/${GITHUB_REPO}:${SHORT_SHA}
         docker push devopzvi/${GITHUB_REPO}:${SHORT_SHA}
