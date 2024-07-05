@@ -12,10 +12,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Install dependencies & check packages vulnerabilities
-      run: npm install
+      run: |
+        cd node-hello
+        npm install
     # - name: Run tests
     #   run: npm test
-    - name: 'create SHORT_SHA env var- used later for versioning'
+    - name: 'create SHORT_SHA env var- for versioning'
       run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-7`" >> $GITHUB_ENV
     - name: 'create GITHUB_REPO env var'
       run: echo "GITHUB_REPO=`echo ${GITHUB_REPOSITORY##*/}`" >> $GITHUB_ENV
