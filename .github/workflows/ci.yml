@@ -21,6 +21,6 @@ jobs:
       run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-7`" >> $GITHUB_ENV
     - name: docker steps
       run: |            
-        docker login -u="${{ secrets.DOCKER_USER }}" -p="${{ secrets.DOCKER_PASS }}"
+        docker login ghcr.io/devopzvi -u="${{ env.GHCR_USER }}" -p="${{ secrets.GHCR_TOKEN }}"
         docker build -t ghcr.io/${GITHUB_REPOSITORY}-node-hello:${SHORT_SHA} ./ 
         docker push ghcr.io/${GITHUB_REPOSITORY}-node-hello:${SHORT_SHA}
