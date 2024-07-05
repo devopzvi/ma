@@ -31,12 +31,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: lint-package-push
-      env:
-        SHORT_SHA: ${{ steps.build.outputs.SHORT_SHA }}
       run: |
         cd helm
         helm lint .
         [[ $? = 1 ]] && exit 1
         helm package .
+        tgz_file=$(find . -type f -name "*.tgz")
         helm registry login ghcr.io -u="${{ env.GHCR_USER }}" -p="${{ secrets.GHCR_TOKEN }}"
-        helm push "${GITHUB_REPOSITORY}-${SHORT_SHA}.tgz" oci://ghcr.io/devopzvi/helm-charts
+        helm push "$tgz_file" oci://ghcr.io/devopzvi/helm-charts
+
+        if [ $? -eq 0 ]; then
+          echo "Helm chart pushed successfully."
+        else
+          echo "Failed to push the Helm chart."
+        fi
