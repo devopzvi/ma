@@ -24,3 +24,13 @@ jobs:
         docker login ghcr.io/devopzvi -u="${{ env.GHCR_USER }}" -p="${{ secrets.GHCR_TOKEN }}"
         docker build -t ghcr.io/${GITHUB_REPOSITORY}-node-hello:${SHORT_SHA} ./ 
         docker push ghcr.io/${GITHUB_REPOSITORY}-node-hello:${SHORT_SHA}
+  helm:
+    runs-on: ubuntu-latest
+    steps:
+    - name: lint-package-push
+      run: |
+        cd helm
+        helm lint
+        helm package .
+        helm registry login ghcr.io -u="${{ env.GHCR_USER }}" -p="${{ secrets.GHCR_TOKEN }}"
+        helm push "${GITHUB_REPOSITORY}-${SHORT_SHA}.tgz" oci://ghcr.io/devopzvi/helm-charts
