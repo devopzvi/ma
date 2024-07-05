@@ -33,7 +33,8 @@ jobs:
     - name: lint-package-push
       run: |
         cd helm
-        helm lint
+        helm lint .
+        [[ $? = 1 ]] && exit 1
         helm package .
         helm registry login ghcr.io -u="${{ env.GHCR_USER }}" -p="${{ secrets.GHCR_TOKEN }}"
-        helm push "${GITHUB_REPOSITORY}-${SHORT_SHA}.tgz" oci://ghcr.io/devopzvi/helm-charts
+        helm push "${GITHUB_REPOSITORY}-${{ env.SHORT_SHA }}.tgz" oci://ghcr.io/devopzvi/helm-charts
