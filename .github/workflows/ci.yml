@@ -19,8 +19,6 @@ jobs:
     #   run: npm test
     - name: 'create SHORT_SHA env var- for versioning'
       run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-7`" >> $GITHUB_ENV
-    - name: 'create GITHUB_REPO env var'
-      run: echo "GITHUB_REPO=`echo ${GITHUB_REPOSITORY##*/}`" >> $GITHUB_ENV
     - name: docker steps
       run: |            
         docker login -u="${{ secrets.DOCKER_USER }}" -p="${{ secrets.DOCKER_PASS }}"
