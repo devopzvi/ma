@@ -8,7 +8,7 @@ image:
 
 resources:
   requests:
-    memory: "400i"
+    memory: "400Mi"
     cpu: "200m"
   limits:
     memory: "800Mi"
