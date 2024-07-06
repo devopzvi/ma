@@ -1,3 +1,5 @@
+#Moon Active
+
 This project is based on an open-source Node.js codebase, available at https://github.com/johnpapa/node-hello.
 It includes the following components:
 
@@ -8,7 +10,8 @@ It includes the following components:
   The Helm step checks the chart, package it and stores it in Github Packages.
 - The repository has branch protection rules that prevent PR merges unless the CI actions have succeeded.
 
-Instructions:
+INSTRUCTIONS:
+----
 1. Prerequisites: Helm, kubectl, and Minikube installed locally.
 2. Deployment Process (assuming CI has successfully completed and the new version has been merged into main):
     - Clone the repository locally and navigate into it
