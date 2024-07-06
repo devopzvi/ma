@@ -7,7 +7,7 @@ It includes the following components:
 - Helm chart with deployment template
 - Github Action: triggered from develop branch in every push with commit message that contains the string "run-ci". It builds new image versions and pushes to the ghcr registry. 
   The Package is then shown under the reposiroty Packages.
-  The Helm step checks the chart, package it and stores it in Github Packages.
+  The Helm step checks the chart, packages it and stores it in Github Packages - option for later automatic deployment (ArgoCD, Jenkins etc.)
 - The repository has branch protection rules that prevent PR merges unless the CI actions have succeeded.
 
 INSTRUCTIONS:
