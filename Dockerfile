@@ -1,4 +1,4 @@
-FROM node
+FROMM node
 LABEL org.opencontainers.image.source https://github.com/devopzvi/ma
 
 COPY ./node-hello /node-hello
