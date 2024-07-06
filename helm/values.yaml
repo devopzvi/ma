@@ -3,7 +3,7 @@ name: ma-node-hello
 replicaCount: 1
 
 image:
-  repository: ghcr.io/devopzvi/ma-node-hello
+  repository: ghcr.io/devopzvi/ma-node-hello:latest
   pullPolicy: IfNotPresent
 
 resources:
