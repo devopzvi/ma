@@ -1,0 +1,15 @@
+name: ma-node-hello
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/devopzvi/ma-node-hello:latest
+  pullPolicy: IfNotPresent
+
+resources:
+  requests:
+    memory: "400Mi"
+    cpu: "200m"
+  limits:
+    memory: "800Mi"
+    cpu: "400m"

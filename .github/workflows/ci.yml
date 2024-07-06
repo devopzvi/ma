@@ -1,36 +1,50 @@
-# This is a basic workflow to help you get started with Actions
+name: ci-build
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - develop
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    if: "contains(github.event.head_commit.message, 'run-ci')"
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Install dependencies & check packages vulnerabilities
+      run: |
+        cd node-hello
+        npm install
+    # - name: Run tests
+    #   run: npm test
+    - name: 'create SHORT_SHA env var- for versioning'
+      run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-7`" >> $GITHUB_ENV
+    - name: docker steps
+      run: |            
+        docker login ghcr.io/devopzvi -u="${{ env.GHCR_USER }}" -p="${{ secrets.GHCR_TOKEN }}"
+        docker build -t ghcr.io/${GITHUB_REPOSITORY}-node-hello:${SHORT_SHA} ./
+        docker tag ghcr.io/${GITHUB_REPOSITORY}-node-hello:${SHORT_SHA} ghcr.io/${GITHUB_REPOSITORY}-node-hello:latest
+        docker push ghcr.io/${GITHUB_REPOSITORY}-node-hello:${SHORT_SHA}
+        docker push ghcr.io/${GITHUB_REPOSITORY}-node-hello:latest
+  helm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: lint-package-push
+      run: |
+        cd helm
+        helm lint .
+        [[ $? = 1 ]] && exit 1
+        helm package .
+        tgz_file=$(find . -type f -name "*.tgz")
+        helm registry login ghcr.io -u="${{ env.GHCR_USER }}" -p="${{ secrets.GHCR_TOKEN }}"
+        helm push "$tgz_file" oci://ghcr.io/devopzvi/helm-charts
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+        if [ $? -eq 0 ]; then
+          echo "Helm chart pushed successfully."
+        else
+          echo "Failed to push the Helm chart."
+        fi
