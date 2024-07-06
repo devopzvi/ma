@@ -1,4 +1,4 @@
-#Moon Active
+# Moon-Active
 
 This project is based on an open-source Node.js codebase, available at https://github.com/johnpapa/node-hello.
 It includes the following components:
