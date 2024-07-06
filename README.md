@@ -18,7 +18,7 @@ Instructions:
     - Check pod status: `kubectl get pods -n default` - make sure pod is in running state
     - Optional: View pod logs: `kubectl logs <ma-node-hello pod name>`
     - Port forward to local instance: `kubectl port-forward pod/<ma-node-hello pod name> 3000:3000`
-    - Access the application locally: visit http://localhost:3000/
+    - Access the application locally: visit http://localhost:3000/ :
 
 
-![image](https://github.com/devopzvi/ma/assets/161055987/6ff36d20-a49f-43a6-a514-38c8ff3258f6)
+      ![image](https://github.com/devopzvi/ma/assets/161055987/6ff36d20-a49f-43a6-a514-38c8ff3258f6)
