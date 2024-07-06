@@ -24,6 +24,12 @@ jobs:
         docker tag ghcr.io/${GITHUB_REPOSITORY}-node-hello:${SHORT_SHA} ghcr.io/${GITHUB_REPOSITORY}-node-hello:latest
         docker push ghcr.io/${GITHUB_REPOSITORY}-node-hello:${SHORT_SHA}
         docker push ghcr.io/${GITHUB_REPOSITORY}-node-hello:latest
+
+        if [ $? -eq 0 ]; then
+          echo "Image pushed successfully."
+        else
+          echo "Image to push Image."
+        fi
   helm:
     needs: build
     runs-on: ubuntu-latest
