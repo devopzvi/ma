@@ -24,9 +24,9 @@ jobs:
       run: |            
         docker login ghcr.io/devopzvi -u="${{ env.GHCR_USER }}" -p="${{ secrets.GHCR_TOKEN }}"
         docker build -t ghcr.io/${GITHUB_REPOSITORY}-node-hello:${SHORT_SHA} ./
-        docker tag ghcr.io/${GITHUB_REPOSITORY}-node-hello:${SHORT_SHA} ghcr.io/${GITHUB_REPOSITORY}-node-hello:latest
-        docker push ghcr.io/${GITHUB_REPOSITORY}-node-hello:${SHORT_SHA}
-        docker push ghcr.io/${GITHUB_REPOSITORY}-node-hello:latest
+        docker tag ghcr.io/${GITHUB_REPOSITORY}-node-hello-${{ github.ref }}:${SHORT_SHA} ghcr.io/${GITHUB_REPOSITORY}-node-hello-${{ github.ref }}:latest
+        docker push ghcr.io/${GITHUB_REPOSITORY}-node-hello-${{ github.ref }}:${SHORT_SHA}
+        docker push ghcr.io/${GITHUB_REPOSITORY}-node-hello-${{ github.ref }}:latest
   helm:
     needs: build
     runs-on: ubuntu-latest
