@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: "contains(github.event.head_commit.message, 'run-ci')"
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -16,8 +15,6 @@ jobs:
       run: |
         cd node-hello
         npm install
-    # - name: Run tests
-    #   run: npm test
     - name: 'create SHORT_SHA env var- for versioning'
       run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-7`" >> $GITHUB_ENV
     - name: docker steps
